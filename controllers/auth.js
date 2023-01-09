@@ -106,8 +106,19 @@ const googleSignin = async(req, res = response) => {
 }
 
 
+const revalidarToken = async (req, res = response ) => {
+
+    const { uid, nombre } = req.usuario;
+    console.log('-=-=-=-=-=-=->>>', req.usuario.correo)
+    const token = await generarJWT( uid, nombre );  // Generar JWT
+
+    res.json({ ok: true, uid, nombre, token })
+}
+
+
 
 module.exports = {
     login,
-    googleSignin
+    googleSignin,
+    revalidarToken
 }
