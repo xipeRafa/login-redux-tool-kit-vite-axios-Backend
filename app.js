@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan')
 const fileUpload = require('express-fileupload');
 
 const { dbConnection } = require('./database/config');
@@ -30,6 +31,7 @@ class Server {
 
 
     middlewares() {
+        this.app.use( morgan('tiny') )
         this.app.use( cors() );
         this.app.use( express.json() );
         this.app.use( express.static('public') );
