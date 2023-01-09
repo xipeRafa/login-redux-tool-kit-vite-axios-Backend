@@ -54,13 +54,6 @@ const login = async(req, res = response) => {
 }
 
  
-const revalidarTokenContoller = async (req, res = response ) => {
-
-    const { uid, nombre } = req;
-    const token = await generarJWT( uid, nombre );  // Generar JWT
-    /* console.log(token) */
-    res.json({ ok: true, uid, nombre, token })
-} 
 
 const googleSignin = async(req, res = response) => {
 
@@ -116,6 +109,5 @@ const googleSignin = async(req, res = response) => {
 
 module.exports = {
     login,
-    googleSignin,
-    revalidarTokenContoller
+    googleSignin
 }

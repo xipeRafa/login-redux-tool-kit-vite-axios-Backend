@@ -5,14 +5,11 @@ const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares');
 
 
-const { login, googleSignin, revalidarTokenContoller } = require('../controllers/auth');
-const { revalidarJWT } = require('../middlewares/revalidarJWT');
-/*  const { revalidarJWT } = require('../middlewares/revalidarJWT');  */
+const { login, googleSignin } = require('../controllers/auth');
+
 
 
 const router = Router();
-
-router.get('/renew', revalidarTokenContoller); 
 
 router.post('/login',[
     check('correo', 'El correo es obligatorio').isEmail(),
