@@ -17,14 +17,14 @@ const login = async(req, res = response) => {
         const usuario = await Usuario.findOne({ correo });
         if ( !usuario ) {
             return res.status(400).json({
-                msg: 'Usuario / Password no son correctos - correo'
+                msg: 'Usuario / Password no son correctos - correo --- controller'
             });
         }
 
         // SI el usuario está activo
         if ( !usuario.estado ) {
             return res.status(400).json({
-                msg: 'Usuario / Password no son correctos - estado: false'
+                msg: 'Usuario / Password no son correctos - estado: false --- controller'
             });
         }
 
@@ -32,7 +32,7 @@ const login = async(req, res = response) => {
         const validPassword = bcryptjs.compareSync( password, usuario.password );
         if ( !validPassword ) {
             return res.status(400).json({
-                msg: 'Usuario / Password no son correctos - password'
+                msg: 'Usuario / Password no son correctos - password --- controller'
             });
         }
 
@@ -47,7 +47,7 @@ const login = async(req, res = response) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({
-            msg: 'Hable con el administrador'
+            msg: 'Hable con el administrador --- controller'
         });
     }   
 
@@ -81,7 +81,7 @@ const googleSignin = async(req, res = response) => {
         // Si el usuario en DB
         if ( !usuario.estado ) {
             return res.status(401).json({
-                msg: 'Hable con el administrador, usuario bloqueado'
+                msg: 'Hable con el administrador, usuario bloqueado --- controller'
             });
         }
 
@@ -96,7 +96,7 @@ const googleSignin = async(req, res = response) => {
     } catch (error) {
 
         res.status(400).json({
-            msg: 'Token de Google no es válido'
+            msg: 'Token de Google no es válido --- controller'
         })
 
     }
@@ -109,7 +109,6 @@ const googleSignin = async(req, res = response) => {
 const revalidarToken = async (req, res = response ) => {
 
     const { uid, nombre } = req.usuario;
-    console.log('-=-=-=-=-=-=->>>', req.usuario.correo)
     const token = await generarJWT( uid, nombre );  // Generar JWT
 
     res.json({ ok: true, uid, nombre, token })

@@ -21,7 +21,7 @@ router.get('/', obtenerCategorias );
 
 // Obtener una categoria por id - publico
 router.get('/:id',[
-    check('id', 'No es un id de Mongo válido').isMongoId(),
+    check('id', 'No es un id de Mongo válido --- routes').isMongoId(),
     check('id').custom( existeCategoriaPorId ),
     validarCampos,
 ], obtenerCategoria );
@@ -29,14 +29,14 @@ router.get('/:id',[
 // Crear categoria - privado - cualquier persona con un token válido
 router.post('/', [ 
     validarJWT,
-    check('nombre','El nombre es obligatorio').not().isEmpty(),
+    check('nombre','El nombre es obligatorio -- routes').not().isEmpty(),
     validarCampos
 ], crearCategoria );
 
 // Actualizar - privado - cualquiera con token válido
 router.put('/:id',[
     validarJWT,
-    check('nombre','El nombre es obligatorio').not().isEmpty(),
+    check('nombre','El nombre es obligatorio --- routes').not().isEmpty(),
     check('id').custom( existeCategoriaPorId ),
     validarCampos
 ],actualizarCategoria );
@@ -44,8 +44,8 @@ router.put('/:id',[
 // Borrar una categoria - Admin
 router.delete('/:id',[
     validarJWT,
-    esAdminRole,
-    check('id', 'No es un id de Mongo válido').isMongoId(),
+    /* esAdminRole, */
+    check('id', 'No es un id de Mongo válido --- routes').isMongoId(),
     check('id').custom( existeCategoriaPorId ),
     validarCampos,
 ],borrarCategoria);

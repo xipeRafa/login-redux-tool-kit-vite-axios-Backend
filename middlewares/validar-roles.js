@@ -5,7 +5,7 @@ const esAdminRole = ( req, res = response, next ) => {
 
     if ( !req.usuario ) {
         return res.status(500).json({
-            msg: 'Se quiere verificar el role sin validar el token primero'
+            msg: 'Se quiere verificar el role sin validar el token primero --- middlewares'
         });
     }
 
@@ -13,7 +13,7 @@ const esAdminRole = ( req, res = response, next ) => {
     
     if ( rol !== 'ADMIN_ROLE' ) {
         return res.status(401).json({
-            msg: `${ nombre } no es administrador - No puede hacer esto`
+            msg: `${ nombre } no es administrador - No puede hacer esto --- middlewares`
         });
     }
 
@@ -26,13 +26,13 @@ const tieneRole = ( ...roles  ) => {
         
         if ( !req.usuario ) {
             return res.status(500).json({
-                msg: 'Se quiere verificar el role sin validar el token primero'
+                msg: 'Se quiere verificar el role sin validar el token primero --- middlewares'
             });
         }
 
         if ( !roles.includes( req.usuario.rol ) ) {
             return res.status(401).json({
-                msg: `El servicio requiere uno de estos roles ${ roles }`
+                msg: `El servicio requiere uno de estos roles ${ roles } --- middlewares`
             });
         }
 

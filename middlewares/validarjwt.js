@@ -8,7 +8,7 @@ const validarJWT = async( req = request, res = response, next ) => {
 
     const token = req.header('token');
     if ( !token ) {
-        return res.status(401).json({ msg: 'No hay token en la petición'});
+        return res.status(401).json({ msg: 'No hay token en la petición --- middlewares'});
     }
 
     try {
@@ -16,11 +16,11 @@ const validarJWT = async( req = request, res = response, next ) => {
         const usuario = await Usuario.findById( uid );   // leer el usuario que corresponde al uid
 
         if( !usuario ) {
-            return res.status(401).json({ msg: 'Token no válido - usuario no existe DB'})
+            return res.status(401).json({ msg: 'Token no válido - usuario no existe DB --- middlewares'})
         }
 
         if ( !usuario.estado ) {
-            return res.status(401).json({ msg: 'Token no válido - usuario con estado: false'})  // Verificar si el uid tiene estado true
+            return res.status(401).json({ msg: 'Token no válido - usuario con estado: false --- middlewares'})  // Verificar si el uid tiene estado true
         }
         
         req.usuario = usuario;
@@ -28,7 +28,7 @@ const validarJWT = async( req = request, res = response, next ) => {
 
     } catch (error) {
         console.log(error);
-        res.status(401).json({ msg: 'Token no válido' })
+        res.status(401).json({ msg: 'Token no válido --- middlewares' })
     }
 
 }

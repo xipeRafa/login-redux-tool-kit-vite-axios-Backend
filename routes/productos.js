@@ -9,7 +9,7 @@ const { crearProducto,
         actualizarProducto, 
         borrarProducto } = require('../controllers/productos');
 
-const { existeCategoriaPorId, existeProductoPorId } = require('../helpers/db-validators');
+const { existeCategoriaPorId, existeProductoPorId, nombreRepetido } = require('../helpers/db-validators');
 
 const router = Router();
 
@@ -22,7 +22,7 @@ router.get('/', obtenerProductos );
 
 // Obtener una categoria por id - publico
 router.get('/:id',[
-    check('id', 'No es un id de Mongo válido').isMongoId(),
+    check('id', 'No es un id de Mongo válido --- routes').isMongoId(),
     check('id').custom( existeProductoPorId ),
     validarCampos,
 ], obtenerProducto );
@@ -30,16 +30,17 @@ router.get('/:id',[
 // Crear categoria - privado - cualquier persona con un token válido
 router.post('/', [ 
     validarJWT,
-    check('nombre','El nombre es obligatorio').not().isEmpty(),
-    check('categoria','No es un id de Mongo').isMongoId(),
+    check('nombre').custom(nombreRepetido),
+   /*  check('nombre','El nombre es obligatorio --- routes').not().isEmpty(), */
+    /* check('categoria','No es un id de Mongo en Categorias --- routes').isMongoId(), */
     check('categoria').custom( existeCategoriaPorId ),
-    validarCampos
+    validarCampos,
 ], crearProducto );
 
 // Actualizar - privado - cualquiera con token válido
 router.put('/:id',[
     validarJWT,
-    // check('categoria','No es un id de Mongo').isMongoId(),
+     //check('categoria','No es un id de Mongo --- routes').isMongoId(),
     check('id').custom( existeProductoPorId ),
     validarCampos
 ], actualizarProducto );
@@ -47,8 +48,8 @@ router.put('/:id',[
 // Borrar una categoria - Admin
 router.delete('/:id',[
     validarJWT,
-    esAdminRole,
-    check('id', 'No es un id de Mongo válido').isMongoId(),
+    /* esAdminRole, */
+    check('id', 'No es un id de Mongo válido --- routes').isMongoId(),
     check('id').custom( existeProductoPorId ),
     validarCampos,
 ], borrarProducto);

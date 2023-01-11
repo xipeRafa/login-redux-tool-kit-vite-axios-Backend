@@ -35,21 +35,20 @@ const obtenerProducto = async(req, res = response ) => {
 
 const crearProducto = async(req, res = response ) => {
 
-    const { estado, usuario, ...body } = req.body;
+    const { ...body } = req.body;
 
-    const productoDB = await Producto.findOne({ nombre: body.nombre });
+    let nombre = body.nombre
 
+    const productoDB = await Producto.findOne({ nombre });
+            
     if ( productoDB ) {
-        return res.status(400).json({
-            msg: `El producto ${ productoDB.nombre }, ya existe`
-        });
-    }
+        return res.status(400).json({ msg: `El producto ${ nombre }, ya existe --- controller` });
+    } 
 
     // Generar la data a guardar
     const data = {
         ...body,
-        nombre: body.nombre.toUpperCase(),
-        usuario: req.usuario._id
+        usuario: req.usuario._id 
     }
 
     const producto = new Producto( data );

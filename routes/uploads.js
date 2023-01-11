@@ -11,16 +11,22 @@ const router = Router();
 
 router.post( '/', validarArchivoSubir, cargarArchivo );
 
-router.put('/:coleccion/:id', [
+router.post('/:coleccion/:id', [
     validarArchivoSubir,
-    check('id','El id debe de ser de mongo').isMongoId(),
+    check('id','El id debe de ser de mongo --- routes').isMongoId(),
+    check('coleccion').custom( c => coleccionesPermitidas( c, ['usuarios','productos'] ) ),
+    validarCampos
+ ], actualizarImagen )
+
+ router.put('/:coleccion/:id', [
+    validarArchivoSubir,
+    check('id','El id debe de ser de mongo --- routes').isMongoId(),
     check('coleccion').custom( c => coleccionesPermitidas( c, ['usuarios','productos'] ) ),
     validarCampos
 ], actualizarImagenCloudinary )
-// ], actualizarImagen )
 
 router.get('/:coleccion/:id', [
-    check('id','El id debe de ser de mongo').isMongoId(),
+    check('id','El id debe de ser de mongo --- routes').isMongoId(),
     check('coleccion').custom( c => coleccionesPermitidas( c, ['usuarios','productos'] ) ),
     validarCampos
 ], mostrarImagen  )

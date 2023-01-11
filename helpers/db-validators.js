@@ -5,16 +5,15 @@ const esRoleValido = async(rol = '') => {
 
     const existeRol = await Role.findOne({ rol });
     if ( !existeRol ) {
-        throw new Error(`El rol ${ rol } no está registrado en la BD`);
+        throw new Error(`El rol ${ rol } no está registrado en la BD --- db-validators`);
     }
 }
 
 const emailExiste = async( correo = '' ) => {
-
-    // Verificar si el correo existe
     const existeEmail = await Usuario.findOne({ correo });
+
     if ( existeEmail ) {
-        throw new Error(`El correo: ${ correo }, ya está registrado`);
+        throw new Error(`El correo: ${ correo }, ya está registrado --- db-validators`);
     }
 }
 
@@ -23,7 +22,7 @@ const existeUsuarioPorId = async( id ) => {
     // Verificar si el correo existe
     const existeUsuario = await Usuario.findById(id);
     if ( !existeUsuario ) {
-        throw new Error(`El id no existe ${ id }`);
+        throw new Error(`El id no existe ${ id } --- db-validators`);
     }
 }
 
@@ -35,8 +34,19 @@ const existeCategoriaPorId = async( id ) => {
     // Verificar si el correo existe
     const existeCategoria = await Categoria.findById(id);
     if ( !existeCategoria ) {
-        throw new Error(`El id no existe ${ id }`);
+        throw new Error(`El id no existe ${ id } --- db-validators`);
     }
+}
+
+const nombreRepetido = async(nombre='') => {
+
+    const repetido = await Producto.findOne({ nombre });
+
+    if ( repetido ) {
+        console.log('repetido:', repetido.nombre);
+        throw new Error({ msg: `El producto ${ repetido.nombre }, ya existe --- db-validators` });
+    }
+
 }
 
 /**
@@ -47,7 +57,7 @@ const existeProductoPorId = async( id ) => {
     // Verificar si el correo existe
     const existeProducto = await Producto.findById(id);
     if ( !existeProducto ) {
-        throw new Error(`El id no existe ${ id }`);
+        throw new Error(`El id no existe ${ id } --- db-validators`); 
     }
 }
 
@@ -58,7 +68,7 @@ const coleccionesPermitidas = ( coleccion = '', colecciones = []) => {
 
     const incluida = colecciones.includes( coleccion );
     if ( !incluida ) {
-        throw new Error(`La colección ${ coleccion } no es permitida, ${ colecciones }`);
+        throw new Error(`La colección ${ coleccion } no es permitida, ${ colecciones } --- db-validators`);
     }
     return true;
 }
@@ -70,6 +80,7 @@ module.exports = {
     existeUsuarioPorId,
     existeCategoriaPorId,
     existeProductoPorId,
-    coleccionesPermitidas
+    coleccionesPermitidas,
+    nombreRepetido
 }
 

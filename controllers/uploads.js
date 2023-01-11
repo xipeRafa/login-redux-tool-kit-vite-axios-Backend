@@ -11,7 +11,7 @@ const { Usuario, Producto } = require('../models');
 const cargarArchivo = async(req, res = response) => {
     try {
         const nombre = await subirArchivo( req.files, undefined, 'imgs' );  // txt, md
-        res.json({ nombre });  // const nombre = await subirArchivo( req.files, ['txt','md'], 'textos' );
+        res.json({ nombre });  // const nombre = await subirArchivo( req.files, ['txt','md'], 'textos' ); --undefined
     } catch (msg) {
         res.status(400).json({ msg });
     }
@@ -25,17 +25,17 @@ const actualizarImagen = async(req, res = response ) => {
     switch ( coleccion ) {
         case 'usuarios': modelo = await Usuario.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({msg: `No existe un usuario con el id ${ id }` });
+                return res.status(400).json({msg: `No existe un usuario con el id ${ id } --- controller` });
             }
         break;
 
         case 'productos': modelo = await Producto.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({ msg: `No existe un producto con el id ${ id }` });
+                return res.status(400).json({ msg: `No existe un producto con el id ${ id } --- controller` });
             }
         break;
     
-        default: return res.status(500).json({ msg: 'Se me olvidó validar esto'});
+        default: return res.status(500).json({ msg: 'Se me olvidó validar esto --- controller'});
     }
 
 
@@ -62,24 +62,24 @@ const actualizarImagenCloudinary = async(req, res = response ) => {
     switch ( coleccion ) {
         case 'usuarios': modelo = await Usuario.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({ msg: `No existe un usuario con el id ${ id }` });
+                return res.status(400).json({ msg: `No existe un usuario con el id ${ id } --- controller` });
             }
         break;
 
         case 'productos': modelo = await Producto.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({ msg: `No existe un producto con el id ${ id }` });
+                return res.status(400).json({ msg: `No existe un producto con el id ${ id } --- controller` });
             }
         break;
     
-        default: return res.status(500).json({ msg: 'Se me olvidó validar esto'});
+        default: return res.status(500).json({ msg: 'Se me olvidó validar esto --- controller'});
     }
 
     if ( modelo.img ) { // Limpiar imágenes previas
         const nombreArr = modelo.img.split('/');
         const nombre    = nombreArr[ nombreArr.length - 1 ];
         const [ public_id ] = nombre.split('.');
-        cloudinary.uploader.destroy( public_id );
+        cloudinary.uploader.destroy( public_id ); //  borrar imagenes cloudinary
     }
 
 
@@ -99,17 +99,17 @@ const mostrarImagen = async(req, res = response ) => {
     switch ( coleccion ) {
         case 'usuarios': modelo = await Usuario.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({ msg: `No existe un usuario con el id ${ id }` });
+                return res.status(400).json({ msg: `No existe un usuario con el id ${ id } --- controller` });
             }
         break;
 
         case 'productos': modelo = await Producto.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({ msg: `No existe un producto con el id ${ id }` });
+                return res.status(400).json({ msg: `No existe un producto con el id ${ id } --- controller` });
             }
         break;
     
-        default: return res.status(500).json({ msg: 'Se me olvidó validar esto'});
+        default: return res.status(500).json({ msg: 'Se me olvidó validar esto --- controller'});
     }
 
     if ( modelo.img ) {    // Limpiar imágenes previas
