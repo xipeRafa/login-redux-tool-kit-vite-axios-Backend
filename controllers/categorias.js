@@ -15,26 +15,28 @@ const obtenerCategorias = async(req, res = response ) => {
             .limit(Number( limite ))
     ]);
 
-    res.json({
-        total,
-        categorias
-    });
+    res.json({ total, categorias })
+
 }
+
+
+
 
 const obtenerCategoria = async(req, res = response ) => {
 
     const { id } = req.params;
-    const categoria = await Categoria.findById( id )
-                            .populate('usuario', 'nombre');
+    const categoria = await Categoria.findById( id ).populate('usuario', 'nombre');
 
     res.json( categoria );
 
 }
 
+
+
+
 const crearCategoria = async(req, res = response ) => {
 
     const nombre = req.body.nombre;
-
     const categoriaDB = await Categoria.findOne({ nombre });
 
     if ( categoriaDB ) {
@@ -43,20 +45,19 @@ const crearCategoria = async(req, res = response ) => {
         });
     }
 
-    // Generar la data a guardar
-    const data = {
-        nombre,
-        usuario: req.usuario._id 
-    }
+    const data = { nombre, usuario: req.usuario._id }
 
     const categoria = new Categoria( data );
 
-    // Guardar DB
     await categoria.save();
+
 
     res.status(201).json(categoria);
 
 }
+
+
+
 
 const actualizarCategoria = async( req, res = response ) => {
 
@@ -72,6 +73,9 @@ const actualizarCategoria = async( req, res = response ) => {
 
 }
 
+
+
+
 const borrarCategoria = async(req, res =response ) => {
 
     const { id } = req.params;
@@ -80,18 +84,19 @@ const borrarCategoria = async(req, res =response ) => {
     res.json( categoriaBorrada );
 }
 
+
+
+
 const categoriasToggle = async(req, res = response) => {
 
     const { id } = req.params;
-
-    console.log('req.body :>> ', req.body);
-
     const usuarioInfo = await Categoria.findById(id) 
-    let newValue = !usuarioInfo.toggle
 
+    let newValue = !usuarioInfo.toggle
     const usuario = await Categoria.findByIdAndUpdate(id, { toggle:newValue }, {new: true});
 
     res.json(usuario);
+
 }
 
 

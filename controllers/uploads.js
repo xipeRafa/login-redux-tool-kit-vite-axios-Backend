@@ -8,6 +8,9 @@ const { response } = require('express');
 const { subirArchivo } = require('../helpers');
 const { Usuario, Producto } = require('../models');
 
+
+
+
 const cargarArchivo = async(req, res = response) => {
     try {
         const nombre = await subirArchivo( req.files, undefined, 'imgs' );  // txt, md
@@ -17,12 +20,16 @@ const cargarArchivo = async(req, res = response) => {
     }
 }
 
+
+
+
 const actualizarImagen = async(req, res = response ) => {
 
     const { id, coleccion } = req.params;
     let modelo;
 
     switch ( coleccion ) {
+
         case 'usuarios': modelo = await Usuario.findById(id);
             if ( !modelo ) {
                 return res.status(400).json({msg: `No existe un usuario con el id ${ id } --- controller` });
@@ -38,8 +45,6 @@ const actualizarImagen = async(req, res = response ) => {
         default: return res.status(500).json({ msg: 'Se me olvidó validar esto --- controller'});
     }
 
-
-    
     if ( modelo.img ) { // Limpiar imágenes previas
         const pathImagen = path.join( __dirname, '../uploads', coleccion, modelo.img );
         if ( fs.existsSync( pathImagen ) ) {
@@ -54,12 +59,15 @@ const actualizarImagen = async(req, res = response ) => {
 }
 
 
+
+
 const actualizarImagenCloudinary = async(req, res = response ) => {
 
     const { id, coleccion } = req.params;
     let modelo;
 
     switch ( coleccion ) {
+
         case 'usuarios': modelo = await Usuario.findById(id);
             if ( !modelo ) {
                 return res.status(400).json({ msg: `No existe un usuario con el id ${ id } --- controller` });
@@ -91,12 +99,17 @@ const actualizarImagenCloudinary = async(req, res = response ) => {
     res.json( modelo );
 }
 
+
+
+
+
 const mostrarImagen = async(req, res = response ) => {
 
     const { id, coleccion } = req.params;
     let modelo;
 
     switch ( coleccion ) {
+        
         case 'usuarios': modelo = await Usuario.findById(id);
             if ( !modelo ) {
                 return res.status(400).json({ msg: `No existe un usuario con el id ${ id } --- controller` });
@@ -122,5 +135,8 @@ const mostrarImagen = async(req, res = response ) => {
     const pathImagen = path.join( __dirname, '../assets/no-image.jpg');
     res.sendFile( pathImagen );
 }
+
+
+
 
 module.exports = { cargarArchivo, actualizarImagen, mostrarImagen, actualizarImagenCloudinary }

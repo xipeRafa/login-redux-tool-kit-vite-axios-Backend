@@ -2,6 +2,7 @@ const { response } = require('express');
 const { Producto } = require('../models');
 
 
+
 const obtenerProductos = async(req, res = response ) => {
 
     const { limite = 15, desde = 0 } = req.query;
@@ -22,43 +23,49 @@ const obtenerProductos = async(req, res = response ) => {
     });
 }
 
+
+
+
 const obtenerProducto = async(req, res = response ) => {
 
     const { id } = req.params;
     const producto = await Producto.findById( id )
-                            .populate('usuario', 'nombre')
-                            .populate('categoria', 'nombre');
+            .populate('usuario', 'nombre')
+            .populate('categoria', 'nombre');
 
     res.json( producto );
 
 }
+
+
+
 
 const crearProducto = async(req, res = response ) => {
 
     const { ...body } = req.body;
 
     let nombre = body.nombre
-
     const productoDB = await Producto.findOne({ nombre });
             
     if ( productoDB ) {
         return res.status(400).json({ msg: `El producto ${ nombre }, ya existe --- controller` });
     } 
 
-    // Generar la data a guardar
     const data = {
         ...body,
         usuario: req.usuario._id 
     }
 
     const producto = new Producto( data );
-
-    // Guardar DB
     await producto.save();
+
 
     res.status(201).json(producto);
 
 }
+
+
+
 
 const actualizarProducto = async( req, res = response ) => {
 
@@ -77,6 +84,9 @@ const actualizarProducto = async( req, res = response ) => {
 
 }
 
+
+
+
 const borrarProducto = async(req, res = response ) => {
 
     const { id } = req.params;
@@ -85,18 +95,19 @@ const borrarProducto = async(req, res = response ) => {
     res.json( productoBorrado );
 }
 
+
+
+
 const productosToggle = async(req, res = response) => {
 
     const { id } = req.params;
-
-    console.log('req.body :>> ', req.body);
-
     const usuarioInfo = await Producto.findById(id) 
-    let newValue = !usuarioInfo.disponible
 
+    let newValue = !usuarioInfo.disponible
     const usuario = await Producto.findByIdAndUpdate(id, { disponible:newValue }, {new: true});
 
     res.json(usuario);
+
 }
 
 

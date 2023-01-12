@@ -1,10 +1,8 @@
 const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 
-
 const Usuario = require('../models/usuario');
 const { generarJWT } = require('../helpers/generar-jwt');
-
 
 
 
@@ -63,7 +61,6 @@ const usuariosPut = async(req, res = response) => {
     const { _id, password, google, correo, ...resto } = req.body;
 
     if ( password ) {
-        // Encriptar la contraseña
         const salt = bcryptjs.genSaltSync();
         resto.password = bcryptjs.hashSync( password, salt );
     }
@@ -90,19 +87,21 @@ const usuariosDelete = async(req, res = response) => {
 
 }
 
+
+
+
 const usuariosToggle = async(req, res = response) => {
 
     const { id } = req.params;
-
-    console.log('req.body :>> ', req.body);
-
     const usuarioInfo = await Usuario.findById(id) 
-    let newValue = !usuarioInfo.toggle
 
+    let newValue = !usuarioInfo.toggle
     const usuario = await Usuario.findByIdAndUpdate(id, { toggle:newValue }, {new: true});
 
     res.json(usuario);
 }
+
+
 
 module.exports = {
     usuariosGet,
