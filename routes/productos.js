@@ -7,7 +7,8 @@ const { crearProducto,
         obtenerProductos,
         obtenerProducto,
         actualizarProducto, 
-        borrarProducto } = require('../controllers/productos');
+        borrarProducto,
+        productosToggle } = require('../controllers/productos');
 
 const { existeCategoriaPorId, existeProductoPorId, nombreRepetido } = require('../helpers/db-validators');
 
@@ -53,6 +54,15 @@ router.delete('/:id',[
     check('id').custom( existeProductoPorId ),
     validarCampos,
 ], borrarProducto);
+
+router.patch('/toggle/:id',[
+    validarJWT, 
+    // esAdminRole,
+  /*    tieneRole('ADMIN_ROLE', 'VENTAS_ROLE','USER_ROLE'), 
+    check('id', 'No es un ID válido --- routes').isMongoId(),
+    check('id').custom( existeUsuarioPorId ), */
+    validarCampos
+],productosToggle );
 
 
 module.exports = router;

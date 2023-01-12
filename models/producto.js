@@ -4,7 +4,7 @@ const ProductoSchema = Schema({
     nombre: {
         type: String,
         required: [true, 'El nombre es obligatorio -- model'], 
-        unique: [true, 'El nombre no s epuede repetir -- model'], 
+        unique: [true, 'El nombre no se puede repetir -- model'], 
     },
     estado: {
         type: Boolean,

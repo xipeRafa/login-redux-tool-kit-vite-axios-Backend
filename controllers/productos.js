@@ -4,7 +4,7 @@ const { Producto } = require('../models');
 
 const obtenerProductos = async(req, res = response ) => {
 
-    const { limite = 5, desde = 0 } = req.query;
+    const { limite = 15, desde = 0 } = req.query;
     const query = { estado: true };
 
     const [ total, productos ] = await Promise.all([
@@ -85,6 +85,20 @@ const borrarProducto = async(req, res = response ) => {
     res.json( productoBorrado );
 }
 
+const productosToggle = async(req, res = response) => {
+
+    const { id } = req.params;
+
+    console.log('req.body :>> ', req.body);
+
+    const usuarioInfo = await Producto.findById(id) 
+    let newValue = !usuarioInfo.disponible
+
+    const usuario = await Producto.findByIdAndUpdate(id, { disponible:newValue }, {new: true});
+
+    res.json(usuario);
+}
+
 
 
 
@@ -93,5 +107,6 @@ module.exports = {
     obtenerProductos,
     obtenerProducto,
     actualizarProducto,
-    borrarProducto
+    borrarProducto,
+    productosToggle
 }
