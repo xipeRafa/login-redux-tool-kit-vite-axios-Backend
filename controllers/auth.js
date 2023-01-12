@@ -12,43 +12,27 @@ const login = async(req, res = response) => {
     const { correo, password } = req.body;
 
     try {
-      
-        // Verificar si el email existe
-        const usuario = await Usuario.findOne({ correo });
+        const usuario = await Usuario.findOne({ correo }); // Verificar si el email existe
         if ( !usuario ) {
-            return res.status(400).json({
-                msg: 'Usuario / Password no son correctos - correo --- controller'
-            });
+            return res.status(400).json({ msg: 'Usuario no existe - correo --- controller'});
         }
 
-        // SI el usuario está activo
-        if ( !usuario.estado ) {
-            return res.status(400).json({
-                msg: 'Usuario / Password no son correctos - estado: false --- controller'
-            });
+        if ( !usuario.estado ) {  // SI el usuario está activo
+            return res.status(400).json({ msg: ' - estado: false --- controller'});
         }
 
-        // Verificar la contraseña
         const validPassword = bcryptjs.compareSync( password, usuario.password );
         if ( !validPassword ) {
-            return res.status(400).json({
-                msg: 'Usuario / Password no son correctos - password --- controller'
-            });
+            return res.status(400).json({ msg: 'Password no son correctos - password --- controller'});
         }
 
-        // Generar el JWT
         const token = await generarJWT( usuario.id );
 
-        res.json({
-            usuario,
-            token
-        })
+        res.json({ usuario, token})
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({
-            msg: 'Hable con el administrador --- controller'
-        });
+        res.status(500).json({ msg: 'Hable con el administrador --- controller' });
     }   
 
 }
@@ -65,14 +49,14 @@ const googleSignin = async(req, res = response) => {
         let usuario = await Usuario.findOne({ correo });
 
         if ( !usuario ) {
-            // Tengo que crearlo
+          
             const data = {
                 nombre,
                 correo,
                 password: ':P',
                 img,
                 google: true
-            };
+            };  // Tengo que crearlo
 
             usuario = new Usuario( data );
             await usuario.save();
@@ -80,29 +64,16 @@ const googleSignin = async(req, res = response) => {
 
         // Si el usuario en DB
         if ( !usuario.estado ) {
-            return res.status(401).json({
-                msg: 'Hable con el administrador, usuario bloqueado --- controller'
-            });
+            return res.status(401).json({msg: 'Hable con el administrador, usuario bloqueado --- controller'});
         }
 
-        // Generar el JWT
         const token = await generarJWT( usuario.id );
         
-        res.json({
-            usuario,
-            token
-        });
+        res.json({ usuario, token });
         
     } catch (error) {
-
-        res.status(400).json({
-            msg: 'Token de Google no es válido --- controller'
-        })
-
+        res.status(400).json({ msg: 'Token de Google no es válido --- controller'})
     }
-
-
-
 }
 
 

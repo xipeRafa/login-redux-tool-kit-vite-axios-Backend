@@ -80,6 +80,20 @@ const borrarCategoria = async(req, res =response ) => {
     res.json( categoriaBorrada );
 }
 
+const categoriasToggle = async(req, res = response) => {
+
+    const { id } = req.params;
+
+    console.log('req.body :>> ', req.body);
+
+    const usuarioInfo = await Categoria.findById(id) 
+    let newValue = !usuarioInfo.toggle
+
+    const usuario = await Categoria.findByIdAndUpdate(id, { toggle:newValue }, {new: true});
+
+    res.json(usuario);
+}
+
 
 
 
@@ -88,5 +102,6 @@ module.exports = {
     obtenerCategorias,
     obtenerCategoria,
     actualizarCategoria,
-    borrarCategoria
+    borrarCategoria,
+    categoriasToggle
 }

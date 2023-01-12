@@ -15,6 +15,9 @@ const CategoriaSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
         required: true
+    },
+    toggle: {
+        type: Boolean
     }
 });
 

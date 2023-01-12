@@ -7,7 +7,9 @@ const { crearCategoria,
         obtenerCategorias,
         obtenerCategoria,
         actualizarCategoria, 
-        borrarCategoria } = require('../controllers/categorias');
+        borrarCategoria, 
+        categoriasToggle} = require('../controllers/categorias');
+        
 const { existeCategoriaPorId } = require('../helpers/db-validators');
 
 const router = Router();
@@ -49,6 +51,16 @@ router.delete('/:id',[
     check('id').custom( existeCategoriaPorId ),
     validarCampos,
 ],borrarCategoria);
+
+
+router.patch('/toggle/:id',[
+    validarJWT, 
+    // esAdminRole,
+  /*    tieneRole('ADMIN_ROLE', 'VENTAS_ROLE','USER_ROLE'), 
+    check('id', 'No es un ID válido --- routes').isMongoId(),
+    check('id').custom( existeUsuarioPorId ), */
+    validarCampos
+],categoriasToggle );
 
 
 
