@@ -6,6 +6,7 @@ const Usuario = require('../models/usuario');
 const { generarJWT } = require('../helpers/generar-jwt');
 const { googleVerify } = require('../helpers/google-verify');
 
+// el controlador valida contra la base de datos
 
 const login = async(req, res = response) => {
 
@@ -14,16 +15,16 @@ const login = async(req, res = response) => {
     try {
         const usuario = await Usuario.findOne({ correo }); // Verificar si el email existe
         if ( !usuario ) {
-            return res.status(400).json({ msg: 'Usuario no existe - correo --- controller'});
+            return res.status(400).json({errors:[{msg: 'Usuario no existe - correo --- controller'}]});
         }
-
+      // errors:[{     }]
         if ( !usuario.estado ) {  // SI el usuario está activo
-            return res.status(400).json({ msg: ' - estado: false --- controller'});
+            return res.status(400).json({errors:[{ msg: ' - estado: false --- controller'}]});
         }
 
         const validPassword = bcryptjs.compareSync( password, usuario.password );
         if ( !validPassword ) {
-            return res.status(400).json({ msg: 'Password no son correctos - password --- controller'});
+            return res.status(400).json({errors:[{ msg: 'Password no son correctos - password --- controller'}]});
         }
 
         const token = await generarJWT( usuario.id );
@@ -32,7 +33,7 @@ const login = async(req, res = response) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({ msg: 'Hable con el administrador --- controller' });
+        res.status(500).json({errors:[{ msg: 'Hable con el administrador --- controller' }]});
     }   
 
 }
@@ -64,7 +65,7 @@ const googleSignin = async(req, res = response) => {
 
         // Si el usuario en DB
         if ( !usuario.estado ) {
-            return res.status(401).json({msg: 'Hable con el administrador, usuario bloqueado --- controller'});
+            return res.status(401).json({errors:[{msg: 'Hable con el administrador, usuario bloqueado --- controller'}]});
         }
 
         const token = await generarJWT( usuario.id );
@@ -72,7 +73,7 @@ const googleSignin = async(req, res = response) => {
         res.json({ usuario, token });
         
     } catch (error) {
-        res.status(400).json({ msg: 'Token de Google no es válido --- controller'})
+        res.status(400).json({ errors:[{msg: 'Token de Google no es válido --- controller'}]})
     }
 }
 

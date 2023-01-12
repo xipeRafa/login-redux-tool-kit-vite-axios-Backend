@@ -30,7 +30,7 @@ router.post('/',[
     check('nombre', 'El nombre es obligatorio --- routes').not().isEmpty(),
     check('password', 'El password debe de ser más de 6 letras --- routes').isLength({ min: 6 }),
     check('correo', 'El correo no es válido --- routes').isEmail(),
-    check('correo').custom( emailExiste ), 
+    /* check('correo').custom( emailExiste ), */ 
 /*      check('rol', 'No es un rol válido').isIn(['ADMIN_ROLE','USER_ROLE']),
     check('rol').custom( esRoleValido ),  */  
     validarCampos

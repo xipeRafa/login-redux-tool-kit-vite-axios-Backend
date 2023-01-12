@@ -48,7 +48,7 @@ const crearProducto = async(req, res = response ) => {
     const productoDB = await Producto.findOne({ nombre });
             
     if ( productoDB ) {
-        return res.status(400).json({ msg: `El producto ${ nombre }, ya existe --- controller` });
+        return res.status(400).json({ errors:[{msg: `El producto ${ nombre }, ya existe --- controller`}] });
     } 
 
     const data = {

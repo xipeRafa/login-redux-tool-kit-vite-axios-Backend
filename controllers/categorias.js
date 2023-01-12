@@ -41,7 +41,7 @@ const crearCategoria = async(req, res = response ) => {
 
     if ( categoriaDB ) {
         return res.status(400).json({
-            msg: `La categoria ${ categoriaDB.nombre }, ya existe -- controller`
+            errors:[{errors:[{msg: `La categoria ${ categoriaDB.nombre }, ya existe -- controller`}]}]
         });
     }
 

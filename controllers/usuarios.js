@@ -29,10 +29,10 @@ const usuariosPost = async(req, res = response) => {
     
     const { nombre, correo, password, rol } = req.body;
 
-    try {
+    try {// errors:[{     }]
         let usuario = await Usuario.findOne({ correo }); // validar si existe usuario
         if ( usuario ) {
-            return res.status(400).json({ ok: false, msg: 'El Correo ya existe -- controller POST' });
+            return res.status(400).json({ ok: false, errors:[{ msg: 'El Correo ya existe -- controller POST' }]});
         }   
     
         usuario = new Usuario({ nombre, correo, password, rol });
@@ -46,7 +46,7 @@ const usuariosPost = async(req, res = response) => {
 
     } catch (error) {
         console.log('error en crear usuario:', error)
-        res.status(500).json({ ok: false, msg: 'Por favor hable con el administrador --- controller' });
+        res.status(500).json({ ok: false, errors:[{msg: 'Por favor hable con el administrador --- controller'}]});
     }
    
 }
@@ -73,7 +73,7 @@ const usuariosPut = async(req, res = response) => {
 
 
 const usuariosPatch = (req, res = response) => {
-    res.json({ msg: 'patch API - usuariosPatch --- controller' });
+    res.json({ errors:[{msg: 'patch API - usuariosPatch --- controller'}] });
 }
 
 
@@ -99,6 +99,7 @@ const usuariosToggle = async(req, res = response) => {
     const usuario = await Usuario.findByIdAndUpdate(id, { toggle:newValue }, {new: true});
 
     res.json(usuario);
+
 }
 
 

@@ -32,17 +32,17 @@ const actualizarImagen = async(req, res = response ) => {
 
         case 'usuarios': modelo = await Usuario.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({msg: `No existe un usuario con el id ${ id } --- controller` });
+                return res.status(400).json({errors:[{msg: `No existe un usuario con el id ${ id } --- controller` }]});
             }
         break;
 
         case 'productos': modelo = await Producto.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({ msg: `No existe un producto con el id ${ id } --- controller` });
+                return res.status(400).json({ errors:[{msg: `No existe un producto con el id ${ id } --- controller` }]});
             }
         break;
     
-        default: return res.status(500).json({ msg: 'Se me olvidó validar esto --- controller'});
+        default: return res.status(500).json({ errors:[{msg: 'Se me olvidó validar esto --- controller'}]});
     }
 
     if ( modelo.img ) { // Limpiar imágenes previas
@@ -70,17 +70,17 @@ const actualizarImagenCloudinary = async(req, res = response ) => {
 
         case 'usuarios': modelo = await Usuario.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({ msg: `No existe un usuario con el id ${ id } --- controller` });
+                return res.status(400).json({ errors:[{msg: `No existe un usuario con el id ${ id } --- controller`}] });
             }
         break;
 
         case 'productos': modelo = await Producto.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({ msg: `No existe un producto con el id ${ id } --- controller` });
+                return res.status(400).json({ errors:[{msg: `No existe un producto con el id ${ id } --- controller`}] });
             }
         break;
     
-        default: return res.status(500).json({ msg: 'Se me olvidó validar esto --- controller'});
+        default: return res.status(500).json({ errors:[{msg: 'Se me olvidó validar esto --- controller'}]});
     }
 
     if ( modelo.img ) { // Limpiar imágenes previas
@@ -109,20 +109,20 @@ const mostrarImagen = async(req, res = response ) => {
     let modelo;
 
     switch ( coleccion ) {
-        
+
         case 'usuarios': modelo = await Usuario.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({ msg: `No existe un usuario con el id ${ id } --- controller` });
+                return res.status(400).json({errors:[{ msg: `No existe un usuario con el id ${ id } --- controller`}] });
             }
         break;
 
         case 'productos': modelo = await Producto.findById(id);
             if ( !modelo ) {
-                return res.status(400).json({ msg: `No existe un producto con el id ${ id } --- controller` });
+                return res.status(400).json({errors:[{ msg: `No existe un producto con el id ${ id } --- controller`}] });
             }
         break;
     
-        default: return res.status(500).json({ msg: 'Se me olvidó validar esto --- controller'});
+        default: return res.status(500).json({errors:[{ msg: 'Se me olvidó validar esto --- controller'}]});
     }
 
     if ( modelo.img ) {    // Limpiar imágenes previas
