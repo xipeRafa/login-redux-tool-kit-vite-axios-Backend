@@ -20,18 +20,18 @@ const router = Router();
 router.get('/', usuariosGet );
 
 router.put('/:id',[
-   /*  check('id', 'No es un ID válido --- routes').isMongoId(),
+     check('id', 'No es un ID válido --- routes').isMongoId(),
     check('id').custom( existeUsuarioPorId ), 
-    check('rol').custom( esRoleValido ),  */
-    /* validarCampos */
+    /* check('rol').custom( esRoleValido ),  */ 
+     validarCampos 
 ],usuariosPut );
 
 router.post('/',[
     check('nombre', 'El nombre es obligatorio --- routes').not().isEmpty(),
     check('password', 'El password debe de ser más de 6 letras --- routes').isLength({ min: 6 }),
     check('correo', 'El correo no es válido --- routes').isEmail(),
-    /* check('correo').custom( emailExiste ), */ 
-/*      check('rol', 'No es un rol válido').isIn(['ADMIN_ROLE','USER_ROLE']),
+    check('correo').custom( emailExiste ),
+   /*  check('rol', 'No es un rol válido').isIn(['ADMIN_ROLE','USER_ROLE']),
     check('rol').custom( esRoleValido ),  */  
     validarCampos
 ], usuariosPost );
