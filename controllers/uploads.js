@@ -42,10 +42,10 @@ const actualizarImagen = async(req, res = response ) => {
             }
         break;
     
-        default: return res.status(500).json({ errors:[{msg: 'Se me olvidó validar esto --- controller'}]});
+        default: return res.status(500).json({ errors:[{msg: 'Se me olvidó validar esto 2 --- controller'}]});
     }
 
-    if ( modelo.img ) { // Limpiar imágenes previas
+    if ( coleccion === 'usuarios' ) { // Limpiar imágenes previas
         const pathImagen = path.join( __dirname, '../uploads', coleccion, modelo.img );
         if ( fs.existsSync( pathImagen ) ) {
             fs.unlinkSync( pathImagen ); // Hay que borrar la imagen del servidor
@@ -90,8 +90,9 @@ const actualizarImagenCloudinary = async(req, res = response ) => {
         cloudinary.uploader.destroy( public_id ); //  borrar imagenes cloudinary
     }
 
+    console.log('req =============================== :>> ', req);
 
-    const { tempFilePath } = req.files.archivo
+    const { tempFilePath } = req.files.file
     const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
     
     modelo.img = secure_url;
@@ -125,7 +126,7 @@ const mostrarImagen = async(req, res = response ) => {
         default: return res.status(500).json({errors:[{ msg: 'Se me olvidó validar esto --- controller'}]});
     }
 
-    if ( modelo.img ) {    // Limpiar imágenes previas
+    if ( modelo === 'usuarios' ) {    // Limpiar imágenes previas
         const pathImagen = path.join( __dirname, '../uploads', coleccion, modelo.img );
         if ( fs.existsSync( pathImagen ) ) {         // Hay que borrar la imagen del servidor
             return res.sendFile( pathImagen )
@@ -133,7 +134,8 @@ const mostrarImagen = async(req, res = response ) => {
     }
 
     const pathImagen = path.join( __dirname, '../assets/no-image.jpg');
-    res.sendFile( pathImagen );
+/*     res.status(400).json({ errors:[{msg: 'no hay imagen' }] });
+ */    res.sendFile( pathImagen );
 }
 
 
