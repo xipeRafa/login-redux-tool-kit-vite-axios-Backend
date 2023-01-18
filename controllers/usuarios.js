@@ -9,12 +9,13 @@ const { generarJWT } = require('../helpers/generar-jwt');
 
 const usuariosGet = async(req = request, res = response) => {
 
-    const { limite = 50, desde = 0 } = req.query;
+    const { from, limit } = req.params
+    
     const query = { estado: true };
 
     const [ total, usuarios ] = await Promise.all([
         Usuario.countDocuments(query),
-        Usuario.find(query).skip( Number( desde ) ).limit(Number( limite ))
+        Usuario.find(query).skip(Number(from)).limit(Number(limit))
     ]);
 
     res.json({ total, usuarios });

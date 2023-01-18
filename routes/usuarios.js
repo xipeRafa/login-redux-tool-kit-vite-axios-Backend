@@ -17,7 +17,7 @@ const { usuariosGet,usuariosPut,usuariosPost,usuariosDelete,usuariosPatch,usuari
 const router = Router();
 
 
-router.get('/', usuariosGet );
+router.get('/:from/:limit', usuariosGet );
 
 router.put('/:id',[
      check('id', 'No es un ID válido --- routes').isMongoId(),
