@@ -7,6 +7,10 @@ const Usuario = require('../models/usuario');
 
 const validarJWT = async( req = request, res = response, next ) => {
 
+    console.log('req-body :>>>>>', req.body)
+    console.log('req-headers :>>>>>', req.headers)
+    console.log('req-headers :>>>>>', req.header('token'))
+
     const token = req.header('token');
     if ( !token ) {
         return res.status(401).json({ errors:[{msg: 'No hay token en la petición --- middlewares'}]});
