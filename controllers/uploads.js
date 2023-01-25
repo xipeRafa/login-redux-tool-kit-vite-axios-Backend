@@ -90,8 +90,6 @@ const actualizarImagenCloudinary = async(req, res = response ) => {
         cloudinary.uploader.destroy( public_id ); //  borrar imagenes cloudinary
     }
 
-    console.log('req =============================== :>> ', req);
-
     const { tempFilePath } = req.files.file
     const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
     
